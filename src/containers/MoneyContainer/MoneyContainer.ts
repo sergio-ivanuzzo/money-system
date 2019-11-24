@@ -19,7 +19,6 @@ class MoneyContainer extends React.Component<IMoneyContainerProps> {
 
     protected get injectedProps(): IMoneyContainerChildProps {
         return {
-            balance: this.props.balance,
             transactions: this.props.transactions,
 
             fetchMoneyData: this.fetchMoneyData,
@@ -37,7 +36,6 @@ class MoneyContainer extends React.Component<IMoneyContainerProps> {
 }
 
 const mapStateToProps = (state: IStoreState) => ({
-    balance: state.moneyReducer.balance,
     transactions: state.moneyReducer.transactions,
 });
 

@@ -8,6 +8,7 @@ import {
 } from "components/MoneyUI/TransactionsHistory/TranspationHistoryProps";
 import { ISchemaItem } from "components/DataTable/DataTableProps";
 import DataTable from "components/DataTable/DataTable";
+import {classes} from "istanbul-lib-coverage";
 
 const styles = (theme: Theme): StyleRules => ({
     root: {
@@ -18,14 +19,32 @@ const styles = (theme: Theme): StyleRules => ({
     table: {
         minWidth: 650,
     },
+    income: {
+        color: "lightgreen"
+    },
+    outgo: {
+        color: "red"
+    }
 });
 
-const TransactionsTableSchema: Array<ISchemaItem> = [{
+const TransactionsTableSchema = (
+    incomeClassName, outgoClassName
+): Array<ISchemaItem> => [{
     title: "Title",
     fieldName: "title"
 }, {
     title: "Amount",
-    fieldName: "amount"
+    fieldName: "amount",
+    cell: (amount) => {
+        let className = incomeClassName;
+        if (Number(amount) < 0) {
+            className = outgoClassName;
+        }
+
+        return (
+            <div className={className}>{amount}</div>
+        );
+    }
 }, {
     title: "Date",
     fieldName: "date"
@@ -39,10 +58,15 @@ class TransactionsHistory extends React.Component<ITranspationHistoryProps> {
                 <DataTable
                     className={classes.table}
                     data={transactions}
-                    schema={TransactionsTableSchema}
+                    schema={this.schema}
                 />
             </Container>
         );
+    }
+
+    protected get schema() {
+        const { classes } = this.props;
+        return TransactionsTableSchema(classes.income, classes.outgo);
     }
 }
 

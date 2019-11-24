@@ -4,7 +4,6 @@ import { IPromiseMethod } from "helpers";
 import { ITransaction } from "reducers/moneyReducer";
 
 export interface IMoneyContainerProps {
-    balance: number;
     transactions: Array<ITransaction>;
 
     fetchMoneyData: (request: any, resolve: IPromiseMethod, reject: IPromiseMethod) => void;
@@ -14,7 +13,6 @@ export interface IMoneyContainerProps {
 }
 
 export interface IMoneyContainerChildProps {
-    balance: number;
     transactions: Array<ITransaction>;
 
     fetchMoneyData: (request) => Promise<void>;

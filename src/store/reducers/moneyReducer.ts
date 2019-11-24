@@ -9,12 +9,10 @@ export interface ITransaction {
 }
 
 export interface IMoneyReducerState {
-    balance: number;
     transactions: Array<ITransaction>;
 }
 
 export const initialState: IMoneyReducerState = {
-    balance: 0,
     transactions: []
 };
 
@@ -22,13 +20,11 @@ export const moneyReducer = (state = initialState, action: AnyAction): IMoneyRed
     switch (action.type) {
         case MoneyActionType.MONEY_DATA_FETCH_COMPLETE: {
             return {
-                balance: action.payload.balance,
                 transactions: action.payload.transactions
             };
         }
         case MoneyActionType.MONEY_TRANSACTION_ADD_COMPLETE: {
             return {
-                ...state,
                 transactions: [...state.transactions, action.payload]
             };
         }
