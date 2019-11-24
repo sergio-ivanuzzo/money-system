@@ -1,7 +1,8 @@
+import { WithStyles } from "@material-ui/core";
+
 import { ITransaction } from "reducers/moneyReducer";
 
-export interface ITotalPanelProps {
+export interface ITotalPanelProps extends WithStyles {
     balance: number;
-    income: Array<ITransaction>;
-    outgo: Array<ITransaction>;
+    transactions: Array<ITransaction>;
 }

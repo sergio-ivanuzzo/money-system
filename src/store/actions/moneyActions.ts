@@ -5,10 +5,8 @@ import { IPromiseMethod } from "helpers";
 export enum MoneyActionType {
     MONEY_DATA_FETCH = "MONEY_DATA_FETCH",
     MONEY_DATA_FETCH_COMPLETE = "MONEY_DATA_FETCH_COMPLETE",
-    MONEY_INCOME = "MONEY_INCOME",
-    MONEY_INCOME_COMPLETE = "MONEY_INCOME_COMPLETE",
-    MONEY_OUTGO = "MONEY_OUTGO",
-    MONEY_OUTGO_COMPLETE = "MONEY_OUTGO_COMPLETE",
+    MONEY_TRANSACTION_ADD = "MONEY_TRANSACTION_ADD",
+    MONEY_TRANSACTION_ADD_COMPLETE = "MONEY_TRANSACTION_ADD_COMPLETE",
     MONEY_ERROR = "MONEY_ERROR",
 }
 
@@ -61,14 +59,14 @@ export function actionMoneyFetchComplete(payload: any): AnyAction {
     }
 }
 
-export function actionMoneyAddIncome(
+export function actionMoneyAddTransaction(
     payload: any,
     resolve: IPromiseMethod,
     reject: IPromiseMethod
 ): AnyAction {
     return <IMoneyRequestAction>{
         payload,
-        type: MoneyActionType.MONEY_INCOME,
+        type: MoneyActionType.MONEY_TRANSACTION_ADD,
         promise: {
             resolve,
             reject
@@ -76,32 +74,10 @@ export function actionMoneyAddIncome(
     }
 }
 
-export function actionMoneyAddIncomeComplete(payload: any): AnyAction {
+export function actionMoneyAddTransactionComplete(payload: any): AnyAction {
     return <IMoneyResponseAction>{
         payload,
-        type: MoneyActionType.MONEY_INCOME_COMPLETE
-    }
-}
-
-export function actionMoneyAddOutgo(
-    payload: any,
-    resolve: IPromiseMethod,
-    reject: IPromiseMethod
-): AnyAction {
-    return <IMoneyRequestAction>{
-        payload,
-        type: MoneyActionType.MONEY_OUTGO,
-        promise: {
-            resolve,
-            reject
-        }
-    }
-}
-
-export function actionMoneyAddOutgoComplete(payload: any): AnyAction {
-    return <IMoneyResponseAction>{
-        payload,
-        type: MoneyActionType.MONEY_OUTGO_COMPLETE
+        type: MoneyActionType.MONEY_TRANSACTION_ADD_COMPLETE
     }
 }
 

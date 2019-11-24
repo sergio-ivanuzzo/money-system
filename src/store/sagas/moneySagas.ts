@@ -29,16 +29,16 @@ export function* fetchMoneyData(action: IMoneyRequestAction): IterableIterator<E
     }
 }
 
-export function* addIncome(action: IMoneyRequestAction): IterableIterator<Effect> {
+export function* addTransaction(action: IMoneyRequestAction): IterableIterator<Effect> {
     try {
         let response: AxiosResponse<{data: any}> = yield call(
-            () => client.post("/income", action.payload)
+            () => client.post("/transaction/add", action.payload)
         );
 
         if (response) {
-            toast.success("New income successfully added!");
+            toast.success("New transaction successfully added!");
             action.promise.resolve();
-            return yield put(MoneyActions.actionMoneyAddIncomeComplete(response.data));
+            return yield put(MoneyActions.actionMoneyAddTransactionComplete(response.data));
         } else {
             action.promise.reject();
             return yield put(MoneyActions.actionMoneyError());
@@ -49,25 +49,3 @@ export function* addIncome(action: IMoneyRequestAction): IterableIterator<Effect
         return yield put(MoneyActions.actionMoneyError(e));
     }
 }
-
-export function* addOutgo(action: IMoneyRequestAction): IterableIterator<Effect> {
-    try {
-        let response: AxiosResponse<{data: any}> = yield call(
-            () => client.post("/outgo", action.payload)
-        );
-
-        if (response) {
-            toast.success("New outgo successfully added!");
-            action.promise.resolve();
-            return yield put(MoneyActions.actionMoneyAddOutgoComplete(response.data));
-        } else {
-            action.promise.reject();
-            return yield put(MoneyActions.actionMoneyError());
-        }
-    } catch (e) {
-        toast.error(e.toString());
-        action.promise.reject();
-        return yield put(MoneyActions.actionMoneyError(e));
-    }
-}
-

@@ -10,14 +10,12 @@ export interface ITransaction {
 
 export interface IMoneyReducerState {
     balance: number;
-    income: Array<ITransaction>;
-    outgo: Array<ITransaction>;
+    transactions: Array<ITransaction>;
 }
 
 export const initialState: IMoneyReducerState = {
     balance: 0,
-    income: [],
-    outgo: []
+    transactions: []
 };
 
 export const moneyReducer = (state = initialState, action: AnyAction): IMoneyReducerState => {
@@ -25,20 +23,13 @@ export const moneyReducer = (state = initialState, action: AnyAction): IMoneyRed
         case MoneyActionType.MONEY_DATA_FETCH_COMPLETE: {
             return {
                 balance: action.payload.balance,
-                income: action.payload.income,
-                outgo: action.payload.outgo
+                transactions: action.payload.transactions
             };
         }
-        case MoneyActionType.MONEY_INCOME_COMPLETE: {
+        case MoneyActionType.MONEY_TRANSACTION_ADD_COMPLETE: {
             return {
                 ...state,
-                income: [...state.income, action.payload]
-            };
-        }
-        case MoneyActionType.MONEY_OUTGO_COMPLETE: {
-            return {
-                ...state,
-                outgo: [...state.outgo, action.payload]
+                transactions: [...state.transactions, action.payload]
             };
         }
         default: {

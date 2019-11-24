@@ -33,12 +33,12 @@ const TransactionsTableSchema: Array<ISchemaItem> = [{
 
 class TransactionsHistory extends React.Component<ITranspationHistoryProps> {
     public render(): React.ReactNode {
-        const { income, outgo, classes } = this.props;
+        const { transactions, classes } = this.props;
         return (
             <Container className={classes.root}>
                 <DataTable
                     className={classes.table}
-                    data={income.concat(outgo)}
+                    data={transactions}
                     schema={TransactionsTableSchema}
                 />
             </Container>

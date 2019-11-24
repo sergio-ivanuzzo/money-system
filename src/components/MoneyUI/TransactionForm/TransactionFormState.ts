@@ -1,10 +1,5 @@
-export enum TransactionType {
-    Income = 1,
-    Outgo = 2
-}
+import { ITransaction } from "reducers/moneyReducer";
 
 export interface ITransactionFormState {
-    type: TransactionType;
-    title: string;
-    amount: number;
+    transaction: ITransaction;
 }

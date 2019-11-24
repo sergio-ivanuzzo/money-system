@@ -20,11 +20,10 @@ class MoneyContainer extends React.Component<IMoneyContainerProps> {
     protected get injectedProps(): IMoneyContainerChildProps {
         return {
             balance: this.props.balance,
-            income: this.props.income,
-            outgo: this.props.outgo,
+            transactions: this.props.transactions,
+
             fetchMoneyData: this.fetchMoneyData,
-            addIncome: this.addIncome,
-            addOutgo: this.addOutgo
+            addTransaction: this.addTransaction,
         }
     };
 
@@ -32,19 +31,14 @@ class MoneyContainer extends React.Component<IMoneyContainerProps> {
         await awaitify((resolve, reject) => this.props.fetchMoneyData(request, resolve, reject));
     };
 
-    protected addIncome = async (request) => {
-        await awaitify((resolve, reject) => this.props.addIncome(request, resolve, reject));
-    };
-
-    protected addOutgo = async (request) => {
-        await awaitify((resolve, reject) => this.props.addOutgo(request, resolve, reject));
+    protected addTransaction = async (request) => {
+        await awaitify((resolve, reject) => this.props.addTransaction(request, resolve, reject));
     };
 }
 
 const mapStateToProps = (state: IStoreState) => ({
     balance: state.moneyReducer.balance,
-    income: state.moneyReducer.income,
-    outgo: state.moneyReducer.outgo
+    transactions: state.moneyReducer.transactions,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) => ({
@@ -53,16 +47,11 @@ const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) => ({
         resolve: IPromiseMethod,
         reject: IPromiseMethod
     ) => dispatch(MoneyActions.actionMoneyDataFetch(request, resolve, reject)),
-    addIncome: (
+    addTransaction: (
         request,
         resolve: IPromiseMethod,
         reject: IPromiseMethod
-    ) => dispatch(MoneyActions.actionMoneyAddIncome(request, resolve, reject)),
-    addOutgo: (
-        request,
-        resolve: IPromiseMethod,
-        reject: IPromiseMethod
-    ) => dispatch(MoneyActions.actionMoneyAddOutgo(request, resolve, reject))
+    ) => dispatch(MoneyActions.actionMoneyAddTransaction(request, resolve, reject)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MoneyContainer);

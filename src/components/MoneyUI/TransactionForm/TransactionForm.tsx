@@ -15,8 +15,7 @@ import {
     ITransactionFormProps
 } from "components/MoneyUI/TransactionForm/TransactionFormProps";
 import {
-    ITransactionFormState,
-    TransactionType
+    ITransactionFormState
 } from "components/MoneyUI/TransactionForm/TransactionFormState";
 
 const styles = (theme: Theme): StyleRules => ({
@@ -30,37 +29,24 @@ const styles = (theme: Theme): StyleRules => ({
 
 class TransactionForm extends React.Component<ITransactionFormProps, ITransactionFormState> {
     public state: ITransactionFormState = {
-        type: TransactionType.Income,
-        title: "",
-        amount: 0
+        transaction: {
+            title: "",
+            amount: 0,
+            date: null
+        }
     };
 
     public render(): React.ReactNode {
         const { classes } = this.props;
         return (
-            <form autoComplete={"off"} className={classes.form}>
-                <div>
-                    <FormControl component="div" className={classes.formControl}>
-                        <InputLabel htmlFor="gender">Gender</InputLabel>
-                        <Select
-                            labelId="gender"
-                            id="gender"
-                            value={this.state.type}
-                            onChange={this.handleSelectChange("type")}
-                            autoComplete="off"
-                        >
-                            <MenuItem value={TransactionType.Income}>Income</MenuItem>
-                            <MenuItem value={TransactionType.Outgo}>Outgo</MenuItem>
-                        </Select>
-                    </FormControl>
-                </div>
+            <form autoComplete={"off"} className={classes.form} onSubmit={this.handleSubmit}>
                 <div>
                     <FormControl component="div" className={classes.formControl}>
                         <InputLabel htmlFor="title">Title</InputLabel>
                         <Input
                             id="title"
                             autoComplete={"off"}
-                            value={this.state.title}
+                            value={this.state.transaction.title}
                             onChange={this.handleChange("title")}
                             required
                             inputProps={{maxLength: 256}}
@@ -72,7 +58,7 @@ class TransactionForm extends React.Component<ITransactionFormProps, ITransactio
                             id="amount"
                             type="number"
                             autoComplete={"off"}
-                            value={this.state.amount}
+                            value={this.state.transaction.amount}
                             onChange={this.handleChange("amount")}
                             required
                         />
@@ -81,7 +67,7 @@ class TransactionForm extends React.Component<ITransactionFormProps, ITransactio
                 <div>
                     <FormControl component="div" className={classes.formControl}>
                         <Button variant="contained" color="primary" type="submit">
-                            Save
+                            Add
                         </Button>
                     </FormControl>
                 </div>
@@ -96,22 +82,19 @@ class TransactionForm extends React.Component<ITransactionFormProps, ITransactio
     ): void => {
         let value = event.currentTarget.value;
         this.setState({
-            ...this.state,
-            [fieldName]: value
+            transaction: {
+                ...this.state.transaction,
+                [fieldName]: value
+            }
         });
     };
 
-    protected handleSelectChange = (
-        fieldName: string
-    ): (event: React.ChangeEvent<{name?: string, value: string}>, child: React.ReactNode) => void => (
-        event: React.ChangeEvent<{name?: string, value: string}>,
-        child: React.ReactNode
-    ) => {
-        this.setState({
-            ...this.state,
-            [fieldName]: event.target.value as string
-        })
-    };
+    protected handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
+        const { transaction } = this.state;
+        event.preventDefault();
+        transaction.date = new Date().toDateString();
+        await this.props.addTransaction(transaction);
+    }
 }
 
 export default withStyles(styles)(TransactionForm);
