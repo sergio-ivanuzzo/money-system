@@ -11,6 +11,9 @@ import { store } from "store/store";
 import MoneyContainer, { IMoneyContainerChildProps } from "containers/MoneyContainer";
 
 import { HistoryContext } from "components/AppProps";
+import TotalPanel from "components/MoneyUI/TotalPanel/TotalPanel";
+import TransactionsHistory from "components/MoneyUI/TransactionsHistory/TransactionsHistory";
+import TransactionForm from "components/MoneyUI/TransactionForm/TransactionForm";
 
 const theme = createMuiTheme();
 
@@ -46,7 +49,9 @@ class App extends React.Component {
             <Router history={this.context.history}>
                 <Switch>
                     <Route exact path="/">
-                        <div>Current</div>
+                        <TotalPanel {...props} />
+                        <TransactionsHistory {...props} />
+                        <TransactionForm {...props} />
                     </Route>
                     <Redirect to="/" />
                 </Switch>
